@@ -5,28 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
+	"gopkg.in/gin-gonic/gin.v1"
 )
-
-func NewUserHandler(w http.ResponseWriter, r *http.Request) {
-	err := NewUser("bbirec", "bbirec")
-	if err != nil {
-		w.Write([]byte(err.Error()))
-		return
-	}
-
-	w.Write([]byte("OK"))
-}
-
-func NewLinkHandler(w http.ResponseWriter, r *http.Request) {
-	err := NewLink("http://google.com", []string{"test"}, "구글신", 1)
-	if err != nil {
-		w.Write([]byte(err.Error()))
-		return
-	}
-
-	w.Write([]byte("OK"))
-}
 
 func main() {
 	var err error
@@ -48,16 +28,43 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// Routing
-	r := mux.NewRouter()
-	r.HandleFunc("/api/new-user", NewUserHandler)
-	r.HandleFunc("/api/new-link", NewLinkHandler)
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	// GIN Routing
+	router := gin.Default()
+	router.Use(gin.Logger())
+	router.LoadHTMLGlob("templates/*.html")
 
-	http.Handle("/", r)
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", nil)
+	})
 
-	err = http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	router.POST("/api/login", func(c *gin.Context) {
+		message := c.PostForm("message")
+		nick := c.DefaultPostForm("nick", "anonymous")
+
+		c.JSON(200, gin.H{
+			"status":  "OK",
+			"message": message,
+			"nick":    nick,
+		})
+	})
+
+	router.GET("/api/link", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "OK",
+		})
+	})
+
+	router.POST("/api/link", func(c *gin.Context) {
+		message := c.PostForm("message")
+		nick := c.DefaultPostForm("nick", "anonymous")
+
+		c.JSON(200, gin.H{
+			"status":  "OK",
+			"message": message,
+			"nick":    nick,
+		})
+	})
+
+	router.Static("/static", "static")
+	router.Run(":" + port)
 }
