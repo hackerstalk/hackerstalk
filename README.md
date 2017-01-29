@@ -13,5 +13,7 @@ $ psql -f sql/schema.sql ht
 ## Build
 ```
 $ go build
+$ export GITHUB_CLIENT_ID=<Client Id>
+$ export GITHUB_CLIENT_SECRET=<Client Secret>
 $ ./hackerstalk
 ```

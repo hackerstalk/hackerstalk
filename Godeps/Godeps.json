@@ -1,7 +1,7 @@
 {
 	"ImportPath": "hackerstalk",
 	"GoVersion": "go1.7",
-	"GodepVersion": "v75",
+	"GodepVersion": "v78",
 	"Deps": [
 		{
 			"ImportPath": "github.com/gin-contrib/gzip",
@@ -20,6 +20,19 @@
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Rev": "8ee79997227bf9b34611aee7946ae64735e6fd93"
+		},
+		{
+			"ImportPath": "github.com/google/go-github/github",
+			"Rev": "c9c37fd6ce0247943d1aa34fc3813c62c5cb0225"
+		},
+		{
+			"ImportPath": "github.com/google/go-querystring/query",
+			"Rev": "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+		},
+		{
+			"ImportPath": "github.com/google/uuid",
+			"Comment": "v.1-22-g064e206",
+			"Rev": "064e2069ce9c359c118179501254f67d7d37ba24"
 		},
 		{
 			"ImportPath": "github.com/jmoiron/sqlx",
@@ -52,6 +65,14 @@
 		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "569280fa63be4e201b975e5411e30a92178f0118"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "314dd2c0bf3ebd592ec0d20847d27e79d0dbe8dd"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2/internal",
+			"Rev": "314dd2c0bf3ebd592ec0d20847d27e79d0dbe8dd"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",

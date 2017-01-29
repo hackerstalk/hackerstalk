@@ -23,6 +23,19 @@ func main() {
     port = "8080"
   }
 
+  githubOauthClientId := os.Getenv("GITHUB_CLIENT_ID")
+  if githubOauthClientId == "" {
+    log.Print("GITHUB_CLIENT_ID is missing")
+  }
+
+  githubOauthClientSecret := os.Getenv("GITHUB_CLIENT_SECRET")
+  if githubOauthClientSecret == "" {
+    log.Print("GITHUB_CLIENT_SECRET is missing")
+  }
+
+  // Github OAuth 초기화
+  initGithubOAuth(githubOauthClientId, githubOauthClientSecret)
+
   // DB 연결
   err = Connect(dbUrl)
   if err != nil {
@@ -69,6 +82,49 @@ func main() {
   })
 
   router.POST("/api/link", func(c *gin.Context) {
+    c.JSON(200, gin.H{
+      "status": "OK",
+    })
+  })
+
+  router.GET("/auth/github", func(c *gin.Context) {
+    _, url := GetGithubAuthUrl()
+    // TODO: save state to session and check it on callback
+    c.Redirect(http.StatusMovedPermanently, url)
+  })
+
+  router.GET("/auth/githubCallback", func(c *gin.Context) {
+    apiError := c.Query("error")
+    apiErrorDescription  := c.Query("error_description")
+    code := c.Query("code")
+
+    if apiError != "" {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "error" : apiError,
+        "msg":    apiErrorDescription,
+      })
+      return
+    }
+    // TODO: check c.Query("state") against session.state
+    githubUser, err := GetGithubUser(code)
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+
+    err = NewUser(*githubUser.Name, *githubUser.Login)
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+
     c.JSON(200, gin.H{
       "status": "OK",
     })
