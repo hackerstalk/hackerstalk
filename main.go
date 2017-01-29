@@ -29,8 +29,13 @@ func main() {
 	}
 
 	// GIN Routing
-	router := gin.Default()
-	router.Use(gin.Logger())
+	router := gin.New()
+	router.Use(gin.Recovery())
+
+	if gin.IsDebugging() {
+		router.Use(gin.Logger())
+	}
+
 	router.LoadHTMLGlob("templates/*.html")
 
 	router.GET("/", func(c *gin.Context) {
