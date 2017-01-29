@@ -1,6 +1,10 @@
 {
-  "name": "Hackerstalk",
-  "description": "Hackerstalk Web Server",
+  "name": "HackersTalk",
+  "description": "HackersTalk Web Server",
   "image": "heroku/go:1.7",
-  "repository": "http://github.com/hackerstalk/hackerstalk"
+  "repository": "http://github.com/hackerstalk/hackerstalk",
+  "addons": ["papertrail", "heroku-postgresql"],
+  "env": {
+    "GIN_MODE": "release"
+  }
 }
