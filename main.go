@@ -6,6 +6,7 @@ import (
   "os"
 
   "github.com/gin-contrib/gzip"
+  "github.com/gin-contrib/sessions"
   "gopkg.in/gin-gonic/gin.v1"
 )
 
@@ -51,6 +52,17 @@ func main() {
     router.Use(gin.Logger())
   }
 
+  // Session
+  store := sessions.NewCookieStore([]byte("hack3rsTa!kS3cr2t"))
+  cacheOptions := sessions.Options{
+    Path: "/",
+    MaxAge: 0,
+    Secure: true,
+    HttpOnly: false,
+  }
+  store.Options(cacheOptions)
+  router.Use(sessions.Sessions("ht_session", store))
+
   router.LoadHTMLGlob("templates/*.html")
 
   router.GET("/", func(c *gin.Context) {
@@ -88,12 +100,22 @@ func main() {
   })
 
   router.GET("/auth/github", func(c *gin.Context) {
-    _, url := GetGithubAuthUrl()
-    // TODO: save state to session and check it on callback
-    c.Redirect(http.StatusMovedPermanently, url)
+    session := sessions.Default(c)
+    state, url := GetGithubAuthUrl()
+    session.Set("state", state)
+    err := session.Save()
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+    c.Redirect(http.StatusFound, url)
   })
 
   router.GET("/auth/githubCallback", func(c *gin.Context) {
+    session := sessions.Default(c)
     apiError := c.Query("error")
     apiErrorDescription  := c.Query("error_description")
     code := c.Query("code")
@@ -106,7 +128,16 @@ func main() {
       })
       return
     }
-    // TODO: check c.Query("state") against session.state
+
+    savedState := GetDefault(session, "state", "")
+    if savedState != c.Query("state") {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    "state mismatches.",
+      })
+      return
+    }
+
     githubUser, err := GetGithubUser(code)
     if err != nil {
       c.JSON(500, gin.H{
@@ -116,7 +147,20 @@ func main() {
       return
     }
 
-    err = NewUser(*githubUser.Name, *githubUser.Login)
+    userName := *githubUser.Name
+    githubId := *githubUser.Login
+    err = NewUser(userName, githubId)
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+    session.Delete("state")
+    session.Set("name", userName)
+    session.Set("githubId", githubId)
+    err = session.Save()
     if err != nil {
       c.JSON(500, gin.H{
         "status": "FAIL",
@@ -129,6 +173,18 @@ func main() {
       "status": "OK",
     })
   })
+
+  if gin.IsDebugging() {
+    router.GET("/debug/session", func(c *gin.Context) {
+      session := sessions.Default(c)
+      name := GetDefault(session, "name", "")
+      githubId := GetDefault(session, "githubId", "")
+      c.JSON(200, gin.H{
+        "name": name,
+        "githubId": githubId,
+      })
+    })
+  }
 
   router.Static("/static", "static")
   router.Run(":" + port)

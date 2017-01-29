@@ -4,8 +4,27 @@
 	"GodepVersion": "v78",
 	"Deps": [
 		{
+			"ImportPath": "github.com/boj/redistore",
+			"Comment": "v1.2",
+			"Rev": "fc113767cd6b051980f260d6dbe84b2740c46ab0"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Comment": "v1.0.0-17-g908534c",
+			"Rev": "908534c8b97586a4597e3fa195875d2d26502b97"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Comment": "v1.0.0-17-g908534c",
+			"Rev": "908534c8b97586a4597e3fa195875d2d26502b97"
+		},
+		{
 			"ImportPath": "github.com/gin-contrib/gzip",
 			"Rev": "df8ae5915c82ca27808abca078ff8a62f6f78e5e"
+		},
+		{
+			"ImportPath": "github.com/gin-contrib/sessions",
+			"Rev": "2e0b18a315858af7a1919cca297e9a81ed3081d4"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
@@ -33,6 +52,20 @@
 			"ImportPath": "github.com/google/uuid",
 			"Comment": "v.1-22-g064e206",
 			"Rev": "064e2069ce9c359c118179501254f67d7d37ba24"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "1c83b3eabd45b6d76072b66b746c20815fb2872d"
+		},
+		{
+			"ImportPath": "github.com/gorilla/securecookie",
+			"Comment": "v1.1-5-gfa5329f",
+			"Rev": "fa5329f913702981df43dcb2a380bac429c810b5"
+		},
+		{
+			"ImportPath": "github.com/gorilla/sessions",
+			"Comment": "v1.1-2-g83c8db3",
+			"Rev": "83c8db3bdc9be789e57e3756ffbcffd2d7d40176"
 		},
 		{
 			"ImportPath": "github.com/jmoiron/sqlx",
