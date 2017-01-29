@@ -38,13 +38,20 @@ func main() {
 	})
 
 	router.POST("/api/login", func(c *gin.Context) {
-		message := c.PostForm("message")
-		nick := c.DefaultPostForm("nick", "anonymous")
+		name := c.DefaultPostForm("name", "bbirec")
+		githubId := c.DefaultPostForm("githubId", "bbirec")
+
+		err := NewUser(name, githubId)
+		if err != nil {
+			c.JSON(500, gin.H{
+				"status": "FAIL",
+				"msg":    err.Error(),
+			})
+			return
+		}
 
 		c.JSON(200, gin.H{
-			"status":  "OK",
-			"message": message,
-			"nick":    nick,
+			"status": "OK",
 		})
 	})
 
@@ -55,13 +62,8 @@ func main() {
 	})
 
 	router.POST("/api/link", func(c *gin.Context) {
-		message := c.PostForm("message")
-		nick := c.DefaultPostForm("nick", "anonymous")
-
 		c.JSON(200, gin.H{
-			"status":  "OK",
-			"message": message,
-			"nick":    nick,
+			"status": "OK",
 		})
 	})
 
