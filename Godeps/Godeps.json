@@ -4,6 +4,10 @@
 	"GodepVersion": "v75",
 	"Deps": [
 		{
+			"ImportPath": "github.com/gin-contrib/gzip",
+			"Rev": "df8ae5915c82ca27808abca078ff8a62f6f78e5e"
+		},
+		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
 			"Comment": "v1.1.4",
 			"Rev": "e2212d40c62a98b388a5eb48ecbdcf88534688ba"

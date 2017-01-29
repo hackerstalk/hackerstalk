@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gin-contrib/gzip"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
@@ -31,6 +32,7 @@ func main() {
 	// GIN Routing
 	router := gin.New()
 	router.Use(gin.Recovery())
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	if gin.IsDebugging() {
 		router.Use(gin.Logger())
