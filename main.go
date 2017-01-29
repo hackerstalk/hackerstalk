@@ -58,7 +58,7 @@ func main() {
     Path: "/",
     MaxAge: 0,
     Secure: true,
-    HttpOnly: false,
+    HttpOnly: true,
   }
   store.Options(cacheOptions)
   router.Use(sessions.Sessions("ht_session", store))
