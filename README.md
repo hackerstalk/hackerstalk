@@ -4,5 +4,5 @@
 ## Build
 ```
 $ go build
-$ ./hackerstalk
+$ PORT=8080 ./hackerstalk
 ```
