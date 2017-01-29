@@ -1,0 +1,12 @@
+{
+	"ImportPath": "hackerstalk",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v75",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.1-27-g757bef9",
+			"Rev": "757bef944d0f21880861c2dd9c871ca543023cba"
+		}
+	]
+}
