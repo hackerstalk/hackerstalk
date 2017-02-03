@@ -1,3 +1,4 @@
 /hackerstalk
 *~
 .*.swp
+/static/bundle.js
