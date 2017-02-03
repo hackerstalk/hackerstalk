@@ -5,11 +5,6 @@ var BUILD_DIR = path.resolve(__dirname, '..', 'static');
 var APP_DIR = __dirname;
 
 var config = {
-  entry: path.join(APP_DIR, 'index.jsx'),
-  output: {
-    path: BUILD_DIR,
-    filename: 'bundle.js'
-  },
   module: {
     rules: [
       {
@@ -29,4 +24,14 @@ var config = {
   }
 };
 
-module.exports = config;
+var indexConfig = Object.assign({}, config, {
+  entry: path.join(APP_DIR, 'index.jsx'),
+  output: {
+    path: BUILD_DIR,
+    filename: 'bundleIndex.js'
+  }
+});
+
+module.exports = [
+  indexConfig,
+];
