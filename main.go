@@ -175,6 +175,33 @@ func main() {
   })
 
   if gin.IsDebugging() {
+    router.GET("/signin", func(c *gin.Context) {
+      c.HTML(http.StatusOK, "signin.html", nil)
+    })
+
+    router.POST("/signin", func(c *gin.Context) {
+      name := c.PostForm("name")
+      githubId := c.PostForm("githubId")
+
+      if name == "" || githubId == "" {
+        c.JSON(500, gin.H{
+          "status": "FAIL",
+          "msg":    "name of githubId is missing",
+        })
+        return
+      }
+
+      err := NewUser(name, githubId)
+      if err != nil {
+        c.JSON(500, gin.H{
+          "status": "FAIL",
+          "msg":    err.Error(),
+        })
+        return
+      }
+      c.Redirect(http.StatusFound, "/");
+    })
+
     router.GET("/debug/session", func(c *gin.Context) {
       session := sessions.Default(c)
       name := GetDefault(session, "name", "")
