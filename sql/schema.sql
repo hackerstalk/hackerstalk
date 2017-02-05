@@ -4,7 +4,7 @@ create table users
 (
 	id serial primary key,
 	name varchar(255) not null,
-	github_id varchar(255),
+	github_id varchar(255) unique,
 
 	edited_time timestamp,
 	created_time timestamp default CURRENT_TIMESTAMP

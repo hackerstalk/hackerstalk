@@ -4,11 +4,18 @@ import (
   "log"
   "net/http"
   "os"
+  "time"
 
   "github.com/gin-contrib/gzip"
   "github.com/gin-contrib/sessions"
   "gopkg.in/gin-gonic/gin.v1"
 )
+
+func setLoginSession(c *gin.Context, session sessions.Session, githubId string, userName string) {
+  session.Set("githubId", githubId)
+  session.Set("salt", time.Now().Unix())
+  c.SetCookie("name", userName, 0, "/", "", !gin.IsDebugging(), false)
+}
 
 func main() {
   var err error
@@ -57,7 +64,7 @@ func main() {
   cacheOptions := sessions.Options{
     Path: "/",
     MaxAge: 0,
-    Secure: true,
+    Secure: !gin.IsDebugging(),
     HttpOnly: true,
   }
   store.Options(cacheOptions)
@@ -70,10 +77,20 @@ func main() {
   })
 
   router.POST("/api/login", func(c *gin.Context) {
-    name := c.DefaultPostForm("name", "bbirec")
-    githubId := c.DefaultPostForm("githubId", "bbirec")
+    githubId := c.PostForm("githubId")
 
-    err := NewUser(name, githubId)
+    user, err := GetUserByGithubId(githubId)
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+
+    session := sessions.Default(c)
+    setLoginSession(c, session, githubId, user.Name)
+    err = session.Save()
     if err != nil {
       c.JSON(500, gin.H{
         "status": "FAIL",
@@ -149,7 +166,7 @@ func main() {
 
     userName := *githubUser.Name
     githubId := *githubUser.Login
-    err = NewUser(userName, githubId)
+    err = UpsertUser(userName, githubId)
     if err != nil {
       c.JSON(500, gin.H{
         "status": "FAIL",
@@ -158,8 +175,7 @@ func main() {
       return
     }
     session.Delete("state")
-    session.Set("name", userName)
-    session.Set("githubId", githubId)
+    setLoginSession(c, session, githubId, userName)
     err = session.Save()
     if err != nil {
       c.JSON(500, gin.H{
@@ -191,7 +207,7 @@ func main() {
         return
       }
 
-      err := NewUser(name, githubId)
+      err := UpsertUser(name, githubId)
       if err != nil {
         c.JSON(500, gin.H{
           "status": "FAIL",
