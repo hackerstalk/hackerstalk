@@ -10,9 +10,8 @@ import (
   "github.com/gin-contrib/sessions"
   "gopkg.in/gin-gonic/gin.v1"
 )
-
-func setLoginSession(c *gin.Context, session sessions.Session, githubId string, userName string) {
-  session.Set("githubId", githubId)
+func setLoginSession(c *gin.Context, session sessions.Session, userId int, userName string) {
+  session.Set("userId", userId)
   session.Set("salt", time.Now().Unix())
   c.SetCookie("name", userName, 0, "/", "", !gin.IsDebugging(), false)
 }
@@ -89,7 +88,7 @@ func main() {
     }
 
     session := sessions.Default(c)
-    setLoginSession(c, session, githubId, user.Name)
+    setLoginSession(c, session, user.Id, user.Name)
     err = session.Save()
     if err != nil {
       c.JSON(500, gin.H{
@@ -175,7 +174,17 @@ func main() {
       return
     }
     session.Delete("state")
-    setLoginSession(c, session, githubId, userName)
+
+    var user *User;
+    user, err = GetUserByGithubId(githubId)
+    if err != nil {
+      c.JSON(500, gin.H{
+        "status": "FAIL",
+        "msg":    err.Error(),
+      })
+      return
+    }
+    setLoginSession(c, session, user.Id, userName)
     err = session.Save()
     if err != nil {
       c.JSON(500, gin.H{

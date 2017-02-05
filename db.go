@@ -31,10 +31,10 @@ func UpsertUser(name string, githubId string) error {
   return err
 }
 
-func GetUserByGithubId(githubId string) (User,error) {
+func GetUserByGithubId(githubId string) (*User,error) {
   user := User{}
   err := DB.Get(&user, "select * from users where github_id=$1 LIMIT 1", githubId)
-  return user, err
+  return &user, err
 }
 
 // 새로운 link추가.
