@@ -17,6 +17,7 @@ const App = React.createClass({
       return (
         <div>
           <span style={{marginRight: 10}}>Welcome, {name}</span>
+          <Link style={{marginRight: 10}} to="/post">Post</Link>
           <Link to="/logout">Logout</Link>
         </div>
       );

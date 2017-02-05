@@ -43,7 +43,9 @@ const Login = React.createClass({
           <p style={{color: 'red'}}>It is for debugging</p>
           <input type='text' value={this.state.githubId} onChange={this.handleGithubIdChange} placeholder="Github ID" />
           <button onClick={this.handleLoginClick}>Login (Debug)</button>
-          {this.state.err ? this.state.err.toString() : ''}
+          <div className='error'>
+            {this.state.err ? this.state.err.toString() : ''}
+          </div>
         </div>
         <p>Sign in with an existing service</p>
         <a href="/auth/github">Login via Github</a>
