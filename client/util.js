@@ -1,6 +1,6 @@
 function getCookie(cname) {
   var name = cname + "=";
-  var ca = decodeURIComponent(document.cookie).split(';');
+  var ca = decodeURIComponent(document.cookie.replace('+', '%20')).split(';');
   for(var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) == ' ') {
