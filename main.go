@@ -243,9 +243,7 @@ func main() {
       return
     }
 
-    c.JSON(200, gin.H{
-      "status": "OK",
-    })
+    c.Redirect(http.StatusFound, "/")
   })
 
   if gin.IsDebugging() {
