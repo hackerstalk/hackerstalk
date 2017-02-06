@@ -287,6 +287,7 @@ func main() {
     })
   }
 
+  router.StaticFile("favicon.ico", "./static/favicon.ico")
   router.Static("/static", "static")
   router.Run(":" + port)
 }
