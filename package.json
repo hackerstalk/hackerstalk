@@ -1,0 +1,3 @@
+{
+  "heroku-postbuild": "cd client && npm run build"
+}
