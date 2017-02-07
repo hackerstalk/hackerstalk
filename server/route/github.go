@@ -6,9 +6,9 @@ import (
 	"github.com/gin-contrib/sessions"
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"hackerstalk/auth"
-	"hackerstalk/db"
-	"hackerstalk/util"
+	"hackerstalk/server/auth"
+	"hackerstalk/server/db"
+	"hackerstalk/server/util"
 )
 
 func GithubAuth(c *gin.Context) {

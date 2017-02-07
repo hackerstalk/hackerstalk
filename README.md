@@ -21,8 +21,8 @@ $ npm run dev   # watch 하면서 계속 업데이트
 
 ### Server
 ```
-$ go build
+$ ./build.sh
 $ export GITHUB_CLIENT_ID=<Client Id>
 $ export GITHUB_CLIENT_SECRET=<Client Secret>
-$ ./hackerstalk
+$ ./app
 ```

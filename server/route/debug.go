@@ -6,8 +6,8 @@ import (
 	"github.com/gin-contrib/sessions"
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"hackerstalk/db"
-	"hackerstalk/util"
+	"hackerstalk/server/db"
+	"hackerstalk/server/util"
 )
 
 func DebugSignIn(c *gin.Context) {

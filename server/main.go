@@ -9,9 +9,9 @@ import (
 	"github.com/gin-contrib/sessions"
 	"gopkg.in/gin-gonic/gin.v1"
 
-	"hackerstalk/auth"
-	"hackerstalk/db"
-	"hackerstalk/route"
+	"hackerstalk/server/auth"
+	"hackerstalk/server/db"
+	"hackerstalk/server/route"
 )
 
 func main() {
