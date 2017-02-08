@@ -3,3 +3,4 @@
 .*.swp
 /static/bundle*.js
 /app
+/node_modules

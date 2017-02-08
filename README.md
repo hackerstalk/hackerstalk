@@ -14,7 +14,6 @@ $ psql -f sql/schema.sql ht
 
 ### Client
 ```
-$ cd client
 $ npm run build # 한번만 생성
 $ npm run dev   # watch 하면서 계속 업데이트
 ```

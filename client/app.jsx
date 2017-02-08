@@ -4,6 +4,8 @@ import style from './style.less';
 import { Link } from 'react-router';
 import { getCookie } from './util.js';
 
+import { Button } from 'elemental';
+
 const App = React.createClass({
   displayName: 'App',
 
@@ -11,7 +13,7 @@ const App = React.createClass({
     const name = getCookie('name');
     if (name === "") {
       return (
-        <Link to="/login" >Login</Link>
+        <Link to="/login" ><Button>Login</Button></Link>
       );
     } else {
       return (
