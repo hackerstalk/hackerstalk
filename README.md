@@ -20,5 +20,5 @@ $ npm run dev   # watch 하면서 계속 업데이트
 
 ### Server
 ```
-$ ./build.sh && ./app
+$ ./run.sh
 ```
