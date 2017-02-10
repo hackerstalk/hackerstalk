@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import style from './style.less';
 import request from 'superagent';
 
-import { Table } from 'elemental';
+import { Table, Spinner } from 'elemental';
 import { LinkAdd } from './addLink.jsx';
 
 const LinkList = React.createClass({
@@ -14,6 +14,7 @@ const LinkList = React.createClass({
   getInitialState() {
     return {
       err: null,
+      loading: false,
       items: []
     };
   },
@@ -23,17 +24,16 @@ const LinkList = React.createClass({
   },
 
   reload() {
+    this.setState({loading: true});
     request.get('/api/link')
            .set('Accept', 'application/json')
            .end(function (err, res) {
               if (err || !res.ok) {
-                this.setState({err: (res.body && res.body.msg) || err});
+                this.setState({err: (res.body && res.body.msg) || err, loading: false});
                 return;
               }
 
-              console.log(res.body.items);
-
-              this.setState({items: res.body.items});
+              this.setState({items: res.body.items, loading: false});
             }.bind(this));
   },
 
@@ -78,6 +78,11 @@ const LinkList = React.createClass({
             {this.state.items.map(this.renderRow)}
           </tbody>
         </Table>
+
+        <div style={{'text-align': 'center'}}>
+          { this.state.loading ? (<Spinner size="md" />) : null }
+        </div>
+
         <div className="lead">새로운 링크 추가</div>
         <LinkAdd onAdded={this.onAdded}/>
       </div>
