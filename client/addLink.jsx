@@ -31,7 +31,7 @@ const LinkAdd = React.createClass({
   },
 
   handlePostClick(evt) {
-    request.post('/api/link/add')
+    request.post('/api/link')
            .type('form')
            .send({url: this.state.url})
            .send({comment: this.state.comment})

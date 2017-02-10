@@ -38,6 +38,11 @@ func main() {
 		githubOauthClientSecret = "c5b40b69fa4796673418d0c3f26806b3b5533b36"
 	}
 
+	sessionSecret := os.Getenv("SESSION_SECRET")
+	if sessionSecret == "" {
+		sessionSecret = "hack3rsTa!kS3cr2t"
+	}
+
 	// Github OAuth 초기화
 	auth.InitGithubOAuth(githubOauthClientId, githubOauthClientSecret)
 
@@ -58,7 +63,7 @@ func main() {
 	}
 
 	// Session
-	store := sessions.NewCookieStore([]byte("hack3rsTa!kS3cr2t"))
+	store := sessions.NewCookieStore([]byte(sessionSecret))
 	cacheOptions := sessions.Options{
 		Path:     "/",
 		MaxAge:   0,
@@ -74,9 +79,10 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	router.POST("/api/login", route.LoginPost)
 	router.GET("/api/link", route.GetLinks)
-	router.POST("/api/link/add", route.NewLink)
+	router.POST("/api/link", route.NewLink)
+
+	// GitHub 로그인
 	router.GET("/auth/github", route.GithubAuth)
 	router.GET("/auth/githubCallback", route.GithubAuthCallback)
 
