@@ -45,13 +45,13 @@ const LinkList = React.createClass({
     return (
       <tr key={i}>
         <td>
-          {item.Id}
+          {item.id}
         </td>
         <td>
-          <a href={item.Url} target="_blank">{item.Url}</a>
+          <a href={item.url} target="_blank">{item.url}</a>
         </td>
-        <td>{item.Comment}</td>
-        <td>{item.Tags}</td>
+        <td>{item.comment}</td>
+        <td>{item.tags}</td>
       </tr>
     )
   },
@@ -79,7 +79,7 @@ const LinkList = React.createClass({
           </tbody>
         </Table>
 
-        <div style={{'text-align': 'center'}}>
+        <div style={{'textAlign': 'center'}}>
           { this.state.loading ? (<Spinner size="md" />) : null }
         </div>
 

@@ -25,13 +25,13 @@ type User struct {
 }
 
 type Link struct {
-	Id          int                `db:"id"`
-	Url         string             `db:"url"`
-	Tags        driver.StringArray `db:"tags"`
-	Comment     string             `db:"comment"`
-	UserId      int                `db:"user_id"`
-	EditedTime  driver.NullTime    `db:"edited_time"`
-	CreatedTime time.Time          `db:"created_time"`
+	Id          int                `db:"id" json:"id"`
+	Url         string             `db:"url" json:"url"`
+	Tags        driver.StringArray `db:"tags" json:"tags"`
+	Comment     string             `db:"comment" json:"comment"`
+	UserId      int                `db:"user_id" json:"user_id"`
+	EditedTime  driver.NullTime    `db:"edited_time" json:"edited_time"`
+	CreatedTime time.Time          `db:"created_time" json:"created_time"`
 }
 
 // 새로운 user추가.
