@@ -48,6 +48,8 @@ func main() {
 		staticKey = "static"
 	}
 
+	log.Printf("Static Key : %s\n", staticKey)
+
 	// Github OAuth 초기화
 	auth.InitGithubOAuth(githubOauthClientId, githubOauthClientSecret)
 
@@ -81,7 +83,9 @@ func main() {
 	router.LoadHTMLGlob("templates/*.html")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", nil)
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"staticKey": staticKey,
+		})
 	})
 
 	router.GET("/api/link", route.GetLinks)
