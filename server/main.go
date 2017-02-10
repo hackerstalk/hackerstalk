@@ -30,12 +30,12 @@ func main() {
 
 	githubOauthClientId := os.Getenv("GITHUB_CLIENT_ID")
 	if githubOauthClientId == "" {
-		log.Print("GITHUB_CLIENT_ID is missing")
+		githubOauthClientId = "b06f9141609acfe076cc"
 	}
 
 	githubOauthClientSecret := os.Getenv("GITHUB_CLIENT_SECRET")
 	if githubOauthClientSecret == "" {
-		log.Print("GITHUB_CLIENT_SECRET is missing")
+		githubOauthClientSecret = "c5b40b69fa4796673418d0c3f26806b3b5533b36"
 	}
 
 	// Github OAuth 초기화
@@ -79,12 +79,6 @@ func main() {
 	router.POST("/api/link/add", route.NewLink)
 	router.GET("/auth/github", route.GithubAuth)
 	router.GET("/auth/githubCallback", route.GithubAuthCallback)
-
-	if gin.IsDebugging() {
-		router.GET("/signin", route.DebugSignIn)
-		router.POST("/signin", route.DebugSignInPost)
-		router.GET("/debug/session", route.DebugSession)
-	}
 
 	router.StaticFile("favicon.ico", "./static/favicon.ico")
 	router.Static("/static", "static")
