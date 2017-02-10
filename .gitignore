@@ -4,3 +4,5 @@
 /static/bundle*.js
 /app
 /node_modules
+
+npm-debug.log

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack -d --watch",
     "build": "webpack -p --progress",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build && echo 'STATIC_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)' > ~/.profile.d/static.sh"
   },
   "author": "jngbng@gmail.com",
   "license": "ISC",

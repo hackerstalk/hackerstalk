@@ -43,6 +43,11 @@ func main() {
 		sessionSecret = "hack3rsTa!kS3cr2t"
 	}
 
+	staticKey := os.Getenv("STATIC_KEY")
+	if staticKey == "" {
+		staticKey = "static"
+	}
+
 	// Github OAuth 초기화
 	auth.InitGithubOAuth(githubOauthClientId, githubOauthClientSecret)
 
@@ -87,6 +92,6 @@ func main() {
 	router.GET("/auth/githubCallback", route.GithubAuthCallback)
 
 	router.StaticFile("favicon.ico", "./static/favicon.ico")
-	router.Static("/static", "static")
+	router.Static(staticKey, "static")
 	router.Run(":" + port)
 }
