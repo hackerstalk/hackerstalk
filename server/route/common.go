@@ -20,5 +20,5 @@ func getUserIdFromSession(session sessions.Session) (int, error) {
 func setLoginSession(c *gin.Context, session sessions.Session, userId int, userName string) {
 	session.Set("userId", userId)
 	session.Set("salt", time.Now().Unix())
-	c.SetCookie("name", userName, 0, "/", "", !gin.IsDebugging(), false)
+	c.SetCookie("name", userName, 0, "/", "", false, false)
 }

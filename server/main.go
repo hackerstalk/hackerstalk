@@ -67,7 +67,7 @@ func main() {
 	cacheOptions := sessions.Options{
 		Path:     "/",
 		MaxAge:   0,
-		Secure:   !gin.IsDebugging(),
+		Secure:   false,
 		HttpOnly: true,
 	}
 	store.Options(cacheOptions)
