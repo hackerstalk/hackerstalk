@@ -45,7 +45,7 @@ func GithubAuthCallback(c *gin.Context) {
 	if savedState != c.Query("state") {
 		c.JSON(500, gin.H{
 			"status": "FAIL",
-			"msg":    "state mismatches.",
+			"msg":    "state mismatches. " + savedState + " != " + c.Query("state"),
 		})
 		return
 	}
