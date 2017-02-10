@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack -d --watch",
     "build": "webpack -p --progress",
-    "heroku-postbuild": "npm run build && ./gen_key.sh"
+    "heroku-postbuild": "./gen_key.sh && npm run build"
   },
   "author": "jngbng@gmail.com",
   "license": "ISC",
