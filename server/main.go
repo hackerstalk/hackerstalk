@@ -14,6 +14,19 @@ import (
 	"hackerstalk/server/route"
 )
 
+func RedirectToHTTPS() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		proto := c.Request.Header["X-Forwarded-Proto"]
+		if len(proto) > 0 && proto[0] == "http" {
+			// HTTPS로 Redirect
+			c.Redirect(302, "https://"+c.Request.Host+c.Request.RequestURI)
+		} else {
+			c.Next()
+		}
+
+	}
+}
+
 func main() {
 	var err error
 
@@ -63,6 +76,7 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Recovery())
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
+	router.Use(RedirectToHTTPS())
 
 	// Debug에서만 log를 출력
 	if gin.IsDebugging() {
