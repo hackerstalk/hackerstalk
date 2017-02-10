@@ -10,7 +10,8 @@ import { Button, Table, Form, FormField, FormInput, Glyph } from 'elemental';
 
 const LinkAdd = React.createClass({
   propTypes: {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
+    onAdded: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -42,7 +43,15 @@ const LinkAdd = React.createClass({
                this.setState({err: (res.body && res.body.msg) || err});
                return;
              }
-             this.props.router.push('/');
+
+             alert('등록 성공');
+
+             this.setState(this.getInitialState());
+
+             if(this.props.onAdded) {
+              this.props.onAdded();
+             }
+             
            }.bind(this));
   },
 
@@ -62,14 +71,17 @@ const LinkAdd = React.createClass({
           <Form type="inline">
             <FormField label="링크 주소" htmlFor="link-input">
               <FormInput type="text" placeholder="https://hackerstalk.com" name="link-input"
+                value={this.state.url}
                 onChange={this.handleFieldChange.bind(this, 'url')} />
             </FormField>
             <FormField label="메모" htmlFor="link-memo">
               <FormInput type="text" placeholder="해커스톡 짱" name="link-memo"
+                value={this.state.comment}
                 onChange={this.handleFieldChange.bind(this, 'comment')} />
             </FormField>
             <FormField label="태그" htmlFor="link-tag">
               <FormInput type="text" placeholder="#해피해킹" name="link-tag"
+                value={this.state.tags}
                 onChange={this.handleFieldChange.bind(this, 'tags')} />
             </FormField>
             <FormField>

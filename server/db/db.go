@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"github.com/jmoiron/sqlx"
-	"github.com/lib/pq"
+	driver "github.com/lib/pq"
 	"time"
 )
 
@@ -16,13 +16,22 @@ func Connect(dbUrl string) error {
 	return err
 }
 
-// users table
 type User struct {
-	Id          int            `db:"id"`
-	Name        string         `db:"name"`
-	GithubId    sql.NullString `db:"github_id"`
-	EditedTime  pq.NullTime    `db:"edited_time"`
-	CreatedTime time.Time      `db:"created_time"`
+	Id          int             `db:"id"`
+	Name        string          `db:"name"`
+	GithubId    sql.NullString  `db:"github_id"`
+	EditedTime  driver.NullTime `db:"edited_time"`
+	CreatedTime time.Time       `db:"created_time"`
+}
+
+type Link struct {
+	Id          int                `db:"id"`
+	Url         string             `db:"url"`
+	Tags        driver.StringArray `db:"tags"`
+	Comment     string             `db:"comment"`
+	UserId      int                `db:"user_id"`
+	EditedTime  driver.NullTime    `db:"edited_time"`
+	CreatedTime time.Time          `db:"created_time"`
 }
 
 // 새로운 user추가.
@@ -37,8 +46,18 @@ func GetUserByGithubId(githubId string) (*User, error) {
 	return &user, err
 }
 
+func GetLinks() ([]Link, error) {
+	links := []Link{}
+	err := DB.Select(&links, "select * from links")
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
+}
+
 // 새로운 link추가.
 func NewLink(url string, tags []string, comment string, userId int) error {
-	_, err := DB.Exec("insert into links(url, tags, comment, user_id) values($1, $2, $3, $4)", url, pq.Array(tags), comment, userId)
+	_, err := DB.Exec("insert into links(url, tags, comment, user_id) values($1, $2, $3, $4)", url, driver.Array(tags), comment, userId)
 	return err
 }

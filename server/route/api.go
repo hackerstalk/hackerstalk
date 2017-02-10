@@ -14,8 +14,18 @@ type NewLinkForm struct {
 }
 
 func GetLinks(c *gin.Context) {
+	items, err := db.GetLinks()
+	if err != nil {
+		c.JSON(401, gin.H{
+			"status": "FAIL",
+			"msg":    err.Error(),
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
 		"status": "OK",
+		"items":  items,
 	})
 }
 
