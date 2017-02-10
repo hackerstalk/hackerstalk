@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import style from './style.less';
 import request from 'superagent';
 
-import { Table, Spinner } from 'elemental';
+import { Table, Spinner, Pagination } from 'elemental';
 import { LinkAdd } from './addLink.jsx';
 
 const LinkList = React.createClass({
@@ -13,6 +13,9 @@ const LinkList = React.createClass({
 
   getInitialState() {
     return {
+      page: 1,
+      total: 0,
+      limit: 0,
       err: null,
       loading: false,
       items: []
@@ -26,6 +29,7 @@ const LinkList = React.createClass({
   reload() {
     this.setState({loading: true});
     request.get('/api/link')
+           .query({ page: this.state.page })
            .set('Accept', 'application/json')
            .end(function (err, res) {
               if (err || !res.ok) {
@@ -33,7 +37,11 @@ const LinkList = React.createClass({
                 return;
               }
 
-              this.setState({items: res.body.items, loading: false});
+              this.setState({
+                items: res.body.items, 
+                total: res.body.total,
+                limit: res.body.limit,
+                loading: false});
             }.bind(this));
   },
 
@@ -54,6 +62,10 @@ const LinkList = React.createClass({
         <td>{item.tags}</td>
       </tr>
     )
+  },
+
+  handlePageSelect(page) {
+    this.setState({page: page}, this.reload)
   },
   
   render () {
@@ -78,6 +90,13 @@ const LinkList = React.createClass({
             {this.state.items.map(this.renderRow)}
           </tbody>
         </Table>
+
+        <Pagination
+          currentPage={this.state.page}
+          onPageSelect={this.handlePageSelect}
+          pageSize={this.state.limit}
+          total={this.state.total}
+          />
 
         <div style={{'textAlign': 'center'}}>
           { this.state.loading ? (<Spinner size="md" />) : null }

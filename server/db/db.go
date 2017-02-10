@@ -46,14 +46,32 @@ func GetUserByGithubId(githubId string) (*User, error) {
 	return &user, err
 }
 
-func GetLinks() ([]Link, error) {
+func GetLinks(offset int, limit int) ([]Link, error) {
 	links := []Link{}
-	err := DB.Select(&links, "select * from links")
+	err := DB.Select(&links, "select * from links ORDER BY created_time DESC offset $1 limit $2", offset, limit)
 	if err != nil {
 		return nil, err
 	}
 
 	return links, nil
+}
+
+func GetLinkCount() (int, error) {
+	rows, err := DB.Query("select count(*) from links")
+	if err != nil {
+		return 0, err
+	}
+
+	var count int
+
+	for rows.Next() {
+		err := rows.Scan(&count)
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return count, nil
 }
 
 // 새로운 link추가.
