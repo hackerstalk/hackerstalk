@@ -5,7 +5,8 @@ import request from 'superagent';
 import { Link } from 'react-router';
 import { getCookie } from './util.js';
 
-import { Button, Table, Form, FormField, FormInput, Glyph } from 'elemental';
+import { Button, Table, Form, FormField, FormInput } from 'elemental';
+import { LoginButton } from './loginButton.jsx';
 
 
 const LinkAdd = React.createClass({
@@ -61,7 +62,7 @@ const LinkAdd = React.createClass({
       return (
         <div>
           <p>새로운 링크를 등록하려면 로그인이 필요합니다.</p>
-          <a href="/auth/github"><Button><Glyph icon="mark-github" /> GitHub 계정으로 로그인</Button></a>
+          <LoginButton/>
         </div>
       )
     }

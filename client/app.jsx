@@ -7,6 +7,7 @@ import { LinkList } from './listLink.jsx';
 
 
 import { Button, InputGroup, FormIconField, FormInput } from 'elemental';
+import { LoginButton } from './loginButton.jsx';
 
 const App = React.createClass({
   displayName: 'App',
@@ -21,7 +22,11 @@ const App = React.createClass({
   renderUserInfo() {
     const name = getCookie('name');
     if (name === "") {
-      return null;
+      return (
+        <span className="info">
+          <LoginButton/>
+        </span>
+      );
     } else {
       return (
         <span className="info">
