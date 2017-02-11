@@ -1,12 +1,12 @@
 import React from 'react';
 import {render} from 'react-dom';
-import style from './style.less';
 import request from 'superagent';
 import { Link } from 'react-router';
-import { loggedIn } from './util.js';
-
 import { Button, Table, Form, FormField, FormInput } from 'elemental';
-import { LoginButton } from './loginButton.js';
+
+import { loggedIn } from '../util.js';
+
+import { LoginButton } from './LoginButton.js';
 
 
 const LinkAdd = React.createClass({

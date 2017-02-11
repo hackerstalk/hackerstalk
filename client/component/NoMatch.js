@@ -1,6 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import style from './style.less';
 
 const NoMatch = React.createClass({
   displayName: 'NoMatch',

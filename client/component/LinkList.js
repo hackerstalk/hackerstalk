@@ -1,11 +1,12 @@
 import React from 'react';
 import {render} from 'react-dom';
-import style from './style.less';
 import request from 'superagent';
-
 import { Button, Table, Spinner, Pagination } from 'elemental';
-import { LinkAdd } from './addLink.js';
-import { getUserId } from './util.js';
+
+import { getUserId } from '../util.js';
+
+import { LinkAdd } from './LinkAdd.js';
+
 
 const LinkList = React.createClass({
   propTypes: {
@@ -52,6 +53,7 @@ const LinkList = React.createClass({
 
   onEditClick(id) {
     console.log('edit', id);
+    
   },
 
   onDeleteClick(id) {

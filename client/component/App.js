@@ -1,13 +1,13 @@
 import React from 'react';
 import {render} from 'react-dom';
-import style from './style.less';
 import { Link } from 'react-router';
-import { getCookie, setCookie, loggedIn } from './util.js';
-import { LinkList } from './listLink.js';
-
-
 import { Button, InputGroup, FormIconField, FormInput } from 'elemental';
-import { LoginButton } from './loginButton.js';
+
+import { getCookie, setCookie, loggedIn } from '../util.js';
+
+import { LinkList } from './LinkList.js';
+import { LoginButton } from './LoginButton.js';
+
 
 const App = React.createClass({
   displayName: 'App',
