@@ -4,7 +4,7 @@ import style from './style.less';
 import request from 'superagent';
 
 import { Button, Table, Spinner, Pagination } from 'elemental';
-import { LinkAdd } from './addLink.jsx';
+import { LinkAdd } from './addLink.js';
 import { getUserId } from './util.js';
 
 const LinkList = React.createClass({

@@ -8,7 +8,7 @@ var config = {
   module: {
     rules: [
       {
-        test : /\.jsx?/,
+        test : /\.js?/,
         include : APP_DIR,
         loader : 'babel-loader'
       },
@@ -25,7 +25,7 @@ var config = {
 };
 
 var indexConfig = Object.assign({}, config, {
-  entry: path.join(APP_DIR, 'index.jsx'),
+  entry: path.join(APP_DIR, 'index.js'),
   output: {
     path: BUILD_DIR,
     filename: 'bundleIndex.js'

@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { loggedIn } from './util.js';
 
 import { Button, Table, Form, FormField, FormInput } from 'elemental';
-import { LoginButton } from './loginButton.jsx';
+import { LoginButton } from './loginButton.js';
 
 
 const LinkAdd = React.createClass({
