@@ -14,6 +14,7 @@ import (
 	"hackerstalk/server/route"
 )
 
+// HTTPS강제 처리. Heroku router에서 X-Forwarded-Proto 헤더로 http인 경우 https로 redirect.
 func RedirectToHTTPS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		proto := c.Request.Header["X-Forwarded-Proto"]
@@ -56,6 +57,8 @@ func main() {
 		sessionSecret = "hack3rsTa!kS3cr2t"
 	}
 
+	// Static Key를 환경변수로 받는다.
+	// Cache-busting을 위해 static folder를 build마다 unique한 static key생성.
 	staticKey := os.Getenv("STATIC_KEY")
 	if staticKey == "" {
 		staticKey = "static"

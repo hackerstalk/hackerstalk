@@ -15,13 +15,14 @@ type NewLinkForm struct {
 	Comment string   `form:"comment" json:"comment"`
 }
 
+// 링크 목록 가져오는 핸들러
 func GetLinks(c *gin.Context) {
 	limit := 50
 
 	// Page 파라메터 파싱
 	page, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32)
 	if err != nil {
-		c.JSON(401, gin.H{
+		c.JSON(400, gin.H{
 			"status": "FAIL",
 			"msg":    err.Error(),
 		})
@@ -54,6 +55,7 @@ func GetLinks(c *gin.Context) {
 	})
 }
 
+// 새로운 링크 추가 핸들러
 func NewLink(c *gin.Context) {
 	session := sessions.Default(c)
 	userId, err := getUserIdFromSession(session)
@@ -79,7 +81,7 @@ func NewLink(c *gin.Context) {
 			"status": "OK",
 		})
 	} else {
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"status": "FAIL",
 			"msg":    "Bind failed??",
 		})

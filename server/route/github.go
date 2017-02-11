@@ -11,6 +11,7 @@ import (
 	"hackerstalk/server/util"
 )
 
+// GitHub OAuth로 Redirect.
 func GithubAuth(c *gin.Context) {
 	session := sessions.Default(c)
 	state, url := auth.GetGithubAuthUrl()
@@ -26,6 +27,7 @@ func GithubAuth(c *gin.Context) {
 	c.Redirect(http.StatusFound, url)
 }
 
+// GitHub OAuth Callback 처리
 func GithubAuthCallback(c *gin.Context) {
 	session := sessions.Default(c)
 	apiError := c.Query("error")
