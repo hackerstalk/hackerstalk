@@ -84,7 +84,7 @@ const LinkList = React.createClass({
           <Button onClick={this.onDeleteClick.bind(this, item.id)}>삭제</Button>
         </div>
       );
-    }
+    } 
 
     return (
       <tr key={i}>
@@ -99,6 +99,7 @@ const LinkList = React.createClass({
           <p>{item.tags}</p>
         </td>
         <td>
+          by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a>
           {opt}
         </td>
       </tr>
