@@ -6,7 +6,7 @@ create table users
   name varchar(255) not null,
   github_id varchar(255) unique,
 
-  edited_time timestamp,
+  edited_time timestamp default CURRENT_TIMESTAMP,
   created_time timestamp default CURRENT_TIMESTAMP
 );
 
@@ -19,7 +19,7 @@ create table links
   comment text,
   user_id int references users(id) not null,
 
-  edited_time timestamp,
+  edited_time timestamp default CURRENT_TIMESTAMP,
   created_time timestamp default CURRENT_TIMESTAMP
 );
 

@@ -30,7 +30,7 @@ type Link struct {
 	Tags        driver.StringArray `db:"tags" json:"tags"`
 	Comment     string             `db:"comment" json:"comment"`
 	UserId      int                `db:"user_id" json:"user_id"`
-	EditedTime  driver.NullTime    `db:"edited_time" json:"edited_time"`
+	EditedTime  time.Time          `db:"edited_time" json:"edited_time"`
 	CreatedTime time.Time          `db:"created_time" json:"created_time"`
 }
 
