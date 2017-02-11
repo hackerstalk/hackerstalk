@@ -20,30 +20,63 @@ func GetLinks(c *gin.Context) {
 	limit := 50
 
 	// Page 파라메터 파싱
-	page, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32)
+	page64, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32)
 	if err != nil {
 		FAIL(c, 400, err)
 		return
 	}
 
-	items, err := db.GetLinks((int(page)-1)*limit, limit)
-	if err != nil {
-		FAIL(c, 500, err)
-		return
+	page := int(page64)
+
+	userIdStr := c.DefaultQuery("user_id", "")
+	if userIdStr == "" {
+		items, err := db.GetLinks((page-1)*limit, limit)
+		if err != nil {
+			FAIL(c, 500, err)
+			return
+		}
+
+		count, err := db.GetLinkCount()
+		if err != nil {
+			FAIL(c, 500, err)
+			return
+		}
+
+		OK(c, gin.H{
+			"status": "OK",
+			"items":  items,
+			"total":  count,
+			"limit":  limit,
+		})
+	} else {
+		userId64, err := strconv.ParseInt(userIdStr, 10, 32)
+		if err != nil {
+			FAIL(c, 400, err)
+			return
+		}
+
+		userId := int(userId64)
+
+		items, err := db.GetLinksByUser(userId, (page-1)*limit, limit)
+		if err != nil {
+			FAIL(c, 500, err)
+			return
+		}
+
+		count, err := db.GetLinkCountByUser(userId)
+		if err != nil {
+			FAIL(c, 500, err)
+			return
+		}
+
+		OK(c, gin.H{
+			"status": "OK",
+			"items":  items,
+			"total":  count,
+			"limit":  limit,
+		})
 	}
 
-	count, err := db.GetLinkCount()
-	if err != nil {
-		FAIL(c, 500, err)
-		return
-	}
-
-	OK(c, gin.H{
-		"status": "OK",
-		"items":  items,
-		"total":  count,
-		"limit":  limit,
-	})
 }
 
 // 새로운 링크 추가 핸들러

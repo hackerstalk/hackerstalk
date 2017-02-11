@@ -74,6 +74,34 @@ func GetLinkCount() (int, error) {
 	return count, nil
 }
 
+func GetLinksByUser(userId int, offset int, limit int) ([]Link, error) {
+	links := []Link{}
+	err := DB.Select(&links, "select * from links WHERE user_id=$1 ORDER BY created_time DESC offset $2 limit $3", userId, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
+}
+
+func GetLinkCountByUser(userId int) (int, error) {
+	rows, err := DB.Query("select count(*) from links WHERE user_id=$1", userId)
+	if err != nil {
+		return 0, err
+	}
+
+	var count int
+
+	for rows.Next() {
+		err := rows.Scan(&count)
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return count, nil
+}
+
 // 새로운 link추가.
 func NewLink(url string, tags []string, comment string, userId int) error {
 	_, err := DB.Exec("insert into links(url, tags, comment, user_id) values($1, $2, $3, $4)", url, driver.Array(tags), comment, userId)
