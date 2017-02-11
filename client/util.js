@@ -21,8 +21,9 @@ function setCookie(cname, cvalue, exdays) {
 }
 
 function loggedIn() {
-  return getCookie('name') !== "" && getCookie('id') !== ""
+  return getCookie('name') !== "" && getCookie('userId') !== ""
 }
 
 exports.getCookie = getCookie;
 exports.setCookie = setCookie;
+exports.loggedIn = loggedIn;
