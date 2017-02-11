@@ -24,6 +24,15 @@ function loggedIn() {
   return getCookie('name') !== "" && getCookie('userId') !== ""
 }
 
+function getUserId() {
+  var userId = getCookie('userId'); 
+  if(userId) {
+    return parseInt(userId);
+  }
+  return null;
+}
+
 exports.getCookie = getCookie;
 exports.setCookie = setCookie;
 exports.loggedIn = loggedIn;
+exports.getUserId = getUserId;

@@ -135,6 +135,6 @@ func EditLink(id int, url string, tags []string, comment string, userId int) err
 
 // 링크 삭제
 func DeleteLink(linkId int) error {
-	_, err := DB.Exec("delete from link where id=$1", linkId)
+	_, err := DB.Exec("delete from links where id=$1", linkId)
 	return err
 }

@@ -3,8 +3,9 @@ import {render} from 'react-dom';
 import style from './style.less';
 import request from 'superagent';
 
-import { Table, Spinner, Pagination } from 'elemental';
+import { Button, Table, Spinner, Pagination } from 'elemental';
 import { LinkAdd } from './addLink.jsx';
+import { getUserId } from './util.js';
 
 const LinkList = React.createClass({
   propTypes: {
@@ -49,7 +50,40 @@ const LinkList = React.createClass({
     this.reload()
   },
 
+  onEditClick(id) {
+    console.log('edit', id);
+  },
+
+  onDeleteClick(id) {
+    console.log('delete', id);
+
+    request.delete('/api/link/' + id)
+           .type('form')
+           .set('Accept', 'application/json')
+           .end(function (err, res) {
+             if (err || !res.ok) {
+               this.setState({err: (res.body && res.body.msg) || err});
+               return;
+             }
+
+             alert('삭제 성공');
+             this.reload();
+             
+           }.bind(this));
+  },
+
   renderRow(item, i) {
+    var userId = getUserId();
+    var opt;
+    if(userId && userId == item.user_id) {
+      opt = (
+        <div>
+          <Button onClick={this.onEditClick.bind(this, item.id)}>수정</Button>
+          <Button onClick={this.onDeleteClick.bind(this, item.id)}>삭제</Button>
+        </div>
+      );
+    }
+
     return (
       <tr key={i}>
         <td>
@@ -58,8 +92,13 @@ const LinkList = React.createClass({
         <td>
           <a href={item.url} target="_blank">{item.url}</a>
         </td>
-        <td>{item.comment}</td>
-        <td>{item.tags}</td>
+        <td>
+          <p>{item.comment}</p>
+          <p>{item.tags}</p>
+        </td>
+        <td>
+          {opt}
+        </td>
       </tr>
     )
   },
@@ -71,19 +110,20 @@ const LinkList = React.createClass({
   render () {
     return (
       <div>
+        <div className="error">{this.state.err}</div>
         <Table>
           <colgroup>
             <col width="50" />
             <col width="30%" />
             <col width="" />
-            <col width="30%" />
+            <col width="10%" />
           </colgroup>
           <thead>
             <tr>
               <th>#</th>
               <th>링크</th>
               <th>메모</th>
-              <th>태그</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
