@@ -1,6 +1,7 @@
 package route
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/gin-contrib/sessions"
@@ -104,4 +105,91 @@ func NewLink(c *gin.Context) {
 		"status": "OK",
 	})
 
+}
+
+// 링크 수정
+func EditLink(c *gin.Context) {
+	session := sessions.Default(c)
+	userId, err := getUserIdFromSession(session)
+	if err != nil {
+		FAIL(c, 401, err)
+		return
+	}
+
+	linkIdStr := c.Param("link_id")
+	linkId64, err := strconv.ParseInt(linkIdStr, 10, 32)
+	if err != nil {
+		FAIL(c, 401, err)
+		return
+	}
+	linkId := int(linkId64)
+
+	// 본인의 링크가 맞는지 확인
+	// Transaction을 할 필요는 없음
+	check, err := db.CheckLinkOwner(userId, linkId)
+	if err != nil {
+		FAIL(c, 500, err)
+		return
+	}
+	if check == false {
+		FAIL(c, 401, errors.New("권한이 없습니다."))
+		return
+	}
+
+	var form NewLinkForm
+	err = c.Bind(&form)
+	if err != nil {
+		FAIL(c, 400, err)
+		return
+	}
+
+	err = db.EditLink(linkId, form.Url, form.Tags, form.Comment, userId)
+	if err != nil {
+		FAIL(c, 500, err)
+		return
+	}
+
+	OK(c, gin.H{
+		"status": "OK",
+	})
+}
+
+// 링크 삭제
+func DelLink(c *gin.Context) {
+	session := sessions.Default(c)
+	userId, err := getUserIdFromSession(session)
+	if err != nil {
+		FAIL(c, 401, err)
+		return
+	}
+
+	linkIdStr := c.Param("link_id")
+	linkId64, err := strconv.ParseInt(linkIdStr, 10, 32)
+	if err != nil {
+		FAIL(c, 401, err)
+		return
+	}
+	linkId := int(linkId64)
+
+	// 본인의 링크가 맞는지 확인
+	// Transaction을 할 필요는 없음
+	check, err := db.CheckLinkOwner(userId, linkId)
+	if err != nil {
+		FAIL(c, 500, err)
+		return
+	}
+	if check == false {
+		FAIL(c, 401, errors.New("권한이 없습니다."))
+		return
+	}
+
+	err = db.DeleteLink(linkId)
+	if err != nil {
+		FAIL(c, 500, err)
+		return
+	}
+
+	OK(c, gin.H{
+		"status": "OK",
+	})
 }

@@ -107,6 +107,8 @@ func main() {
 
 	router.GET("/api/link", route.GetLinks)
 	router.POST("/api/link", route.NewLink)
+	router.PUT("/api/link/:link_id", route.EditLink)
+	router.DELETE("/api/link/:link_id", route.DelLink)
 
 	// GitHub 로그인
 	router.GET("/auth/github", route.GithubAuth)

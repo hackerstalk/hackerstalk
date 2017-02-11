@@ -102,8 +102,39 @@ func GetLinkCountByUser(userId int) (int, error) {
 	return count, nil
 }
 
+// 해당 링크가 유저가 작성한것인지 확인
+func CheckLinkOwner(userId int, linkId int) (bool, error) {
+	rows, err := DB.Query("select count(*) from links WHERE user_id=$1 and id=$2", userId, linkId)
+	if err != nil {
+		return false, err
+	}
+
+	var count int
+
+	for rows.Next() {
+		err := rows.Scan(&count)
+		if err != nil {
+			return false, err
+		}
+	}
+
+	return count > 0, nil
+}
+
 // 새로운 link추가.
 func NewLink(url string, tags []string, comment string, userId int) error {
 	_, err := DB.Exec("insert into links(url, tags, comment, user_id) values($1, $2, $3, $4)", url, driver.Array(tags), comment, userId)
+	return err
+}
+
+// 링크 수정
+func EditLink(id int, url string, tags []string, comment string, userId int) error {
+	_, err := DB.Exec("update links set url=$1, tags=$2, comment=$3, user_id=$4 where id=$5", url, driver.Array(tags), comment, userId, id)
+	return err
+}
+
+// 링크 삭제
+func DeleteLink(linkId int) error {
+	_, err := DB.Exec("delete from link where id=$1", linkId)
 	return err
 }
