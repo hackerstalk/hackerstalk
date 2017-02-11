@@ -18,8 +18,15 @@ func getUserIdFromSession(session sessions.Session) (int, error) {
 }
 
 // OK response를 리턴
-func OK(c *gin.Context, obj interface{}) {
-	c.JSON(200, obj)
+func OK(c *gin.Context, objs ...gin.H) {
+	ret := gin.H{"status": "OK"}
+	for _, obj := range objs {
+		for k, v := range obj {
+			ret[k] = v
+		}
+	}
+
+	c.JSON(200, ret)
 }
 
 // Error response를 리턴

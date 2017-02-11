@@ -44,10 +44,9 @@ func GetLinks(c *gin.Context) {
 		}
 
 		OK(c, gin.H{
-			"status": "OK",
-			"items":  items,
-			"total":  count,
-			"limit":  limit,
+			"items": items,
+			"total": count,
+			"limit": limit,
 		})
 	} else {
 		userId64, err := strconv.ParseInt(userIdStr, 10, 32)
@@ -71,10 +70,9 @@ func GetLinks(c *gin.Context) {
 		}
 
 		OK(c, gin.H{
-			"status": "OK",
-			"items":  items,
-			"total":  count,
-			"limit":  limit,
+			"items": items,
+			"total": count,
+			"limit": limit,
 		})
 	}
 
@@ -101,9 +99,7 @@ func NewLink(c *gin.Context) {
 		FAIL(c, 500, err)
 		return
 	}
-	OK(c, gin.H{
-		"status": "OK",
-	})
+	OK(c)
 
 }
 
@@ -149,9 +145,7 @@ func EditLink(c *gin.Context) {
 		return
 	}
 
-	OK(c, gin.H{
-		"status": "OK",
-	})
+	OK(c)
 }
 
 // 링크 삭제
@@ -189,7 +183,5 @@ func DelLink(c *gin.Context) {
 		return
 	}
 
-	OK(c, gin.H{
-		"status": "OK",
-	})
+	OK(c)
 }
