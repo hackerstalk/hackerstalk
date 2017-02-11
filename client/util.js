@@ -20,5 +20,9 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+function loggedIn() {
+  return getCookie('name') !== "" && getCookie('id') !== ""
+}
+
 exports.getCookie = getCookie;
 exports.setCookie = setCookie;

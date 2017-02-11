@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import style from './style.less';
 import { Link } from 'react-router';
-import { getCookie, setCookie } from './util.js';
+import { getCookie, setCookie, loggedIn } from './util.js';
 import { LinkList } from './listLink.jsx';
 
 
@@ -15,19 +15,20 @@ const App = React.createClass({
   logout() {
     if (confirm("로그아웃 하시겠습니까?")) {
       setCookie('name', '', 0); 
+      setCookie('userId', '', 0); 
       location.href = '/';
     }
   },  
 
   renderUserInfo() {
-    const name = getCookie('name');
-    if (name === "") {
+    if (!loggedIn()) {
       return (
         <span className="info">
           <LoginButton/>
         </span>
       );
     } else {
+      const name = getCookie('name');
       return (
         <span className="info">
           <span style={{marginRight: 10}}>Welcome, {name}</span>

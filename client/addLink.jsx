@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import style from './style.less';
 import request from 'superagent';
 import { Link } from 'react-router';
-import { getCookie } from './util.js';
+import { loggedIn } from './util.js';
 
 import { Button, Table, Form, FormField, FormInput } from 'elemental';
 import { LoginButton } from './loginButton.jsx';
@@ -57,8 +57,7 @@ const LinkAdd = React.createClass({
   },
 
   render () {
-    const name = getCookie('name');
-    if (name === "") {
+    if (!loggedIn()) {
       return (
         <div>
           <p>새로운 링크를 등록하려면 로그인이 필요합니다.</p>

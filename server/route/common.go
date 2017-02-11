@@ -2,12 +2,12 @@ package route
 
 import (
 	"errors"
-	"time"
 
 	"github.com/gin-contrib/sessions"
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
+// 세션에서 userId를 가져온다.
 func getUserIdFromSession(session sessions.Session) (int, error) {
 	value := session.Get("userId")
 	if value == nil {
@@ -15,12 +15,6 @@ func getUserIdFromSession(session sessions.Session) (int, error) {
 	} else {
 		return value.(int), nil
 	}
-}
-
-func setLoginSession(c *gin.Context, session sessions.Session, userId int, userName string) {
-	session.Set("userId", userId)
-	session.Set("salt", time.Now().Unix())
-	c.SetCookie("name", userName, 0, "/", "", false, false)
 }
 
 // OK response를 리턴
