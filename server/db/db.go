@@ -30,6 +30,7 @@ type Link struct {
 	Tags        driver.StringArray `db:"tags" json:"tags"`
 	Comment     string             `db:"comment" json:"comment"`
 	UserId      int                `db:"user_id" json:"user_id"`
+	GithubId    string             `db:"github_id" json:"github_id"`
 	EditedTime  time.Time          `db:"edited_time" json:"edited_time"`
 	CreatedTime time.Time          `db:"created_time" json:"created_time"`
 }
@@ -48,7 +49,7 @@ func GetUserByGithubId(githubId string) (*User, error) {
 
 func GetLinks(offset int, limit int) ([]Link, error) {
 	links := []Link{}
-	err := DB.Select(&links, "select * from links ORDER BY created_time DESC offset $1 limit $2", offset, limit)
+	err := DB.Select(&links, "select links.*, github_id from links join users on links.user_id=users.id ORDER BY created_time DESC offset $1 limit $2", offset, limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +77,7 @@ func GetLinkCount() (int, error) {
 
 func GetLinksByUser(userId int, offset int, limit int) ([]Link, error) {
 	links := []Link{}
-	err := DB.Select(&links, "select * from links WHERE user_id=$1 ORDER BY created_time DESC offset $2 limit $3", userId, offset, limit)
+	err := DB.Select(&links, "select links.*, github_id from links join users on links.user_id=users.id WHERE user_id=$1 ORDER BY created_time DESC offset $2 limit $3", userId, offset, limit)
 	if err != nil {
 		return nil, err
 	}
