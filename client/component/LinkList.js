@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 import request from 'superagent';
-import { Button, Table, Spinner, Pagination } from 'elemental';
+import { Button, Table, Spinner, Pagination, Pill } from 'elemental';
+import TimeAgo from 'timeago-react';
 
 import { getUserId } from '../util.js';
 
@@ -59,7 +60,8 @@ const LinkList = React.createClass({
   onDeleteClick(id) {
     console.log('delete', id);
 
-    request.delete('/api/link/' + id)
+    if (confirm("정말 삭제 하시겠습니까?")) {
+      request.delete('/api/link/' + id)
            .type('form')
            .set('Accept', 'application/json')
            .end(function (err, res) {
@@ -72,6 +74,8 @@ const LinkList = React.createClass({
              this.reload();
              
            }.bind(this));
+    }
+    
   },
 
   renderRow(item, i) {
@@ -92,14 +96,14 @@ const LinkList = React.createClass({
           {item.id}
         </td>
         <td>
-          <a href={item.url} target="_blank">{item.url}</a>
-        </td>
-        <td>
+          <h4><a href={item.url} target="_blank">{item.url}</a></h4>
           <p>{item.comment}</p>
-          <p>{item.tags}</p>
         </td>
         <td>
-          by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a>
+          { item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }
+        </td>
+        <td>
+          <p><TimeAgo datetime={item.created_time} locale='ko'/> by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a></p>
           {opt}
         </td>
       </tr>
@@ -117,15 +121,15 @@ const LinkList = React.createClass({
         <Table>
           <colgroup>
             <col width="50" />
-            <col width="30%" />
             <col width="" />
-            <col width="10%" />
+            <col width="20%" />
+            <col width="20%" />
           </colgroup>
           <thead>
             <tr>
               <th>#</th>
               <th>링크</th>
-              <th>메모</th>
+              <th>태그</th>
               <th></th>
             </tr>
           </thead>
