@@ -18,7 +18,7 @@ type NewLinkForm struct {
 
 // 링크 목록 가져오는 핸들러
 func GetLinks(c *gin.Context) {
-	limit := 50
+	limit := 25
 
 	// Page 파라메터 파싱
 	page64, err := strconv.ParseInt(c.DefaultQuery("page", "1"), 10, 32)
