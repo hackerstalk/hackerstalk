@@ -40,10 +40,12 @@ const LinkForm = React.createClass({
 
   onSubmit() {
     this.props.onSubmit(this.state)
+    this.setState(this.getInitialState());
   },
 
   onCancel() {
     this.props.onCancel();
+    this.setState(this.getInitialState());
   },
 
   render() {
