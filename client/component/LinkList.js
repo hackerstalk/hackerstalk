@@ -96,7 +96,7 @@ const LinkList = React.createClass({
         <td>
           <h4><a href={item.url} target="_blank">{item.url}</a></h4>
           <div>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
-          <p>{item.comment}</p>          
+          <pre>{item.comment}</pre>
         </td>
         <td>
           <p><TimeAgo datetime={item.created_time} locale='ko'/> by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a></p>

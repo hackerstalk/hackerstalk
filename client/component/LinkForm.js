@@ -59,15 +59,16 @@ const LinkForm = React.createClass({
                 value={this.state.url}
                 onChange={this.handleFieldChange.bind(this, 'url')} />
             </FormField>
-            <FormField label="메모" htmlFor="link-memo">
-              <FormInput type="text" placeholder="해커스톡 짱" name="link-memo"
-                value={this.state.comment}
-                onChange={this.handleFieldChange.bind(this, 'comment')} />
-            </FormField>
             <FormField label="태그" htmlFor="link-tag">
               <FormInput type="text" placeholder="#해피해킹" name="link-tag"
                 value={this.state.tags.join(',')}
                 onChange={this.handleTag.bind(this, 'tags')} />
+            </FormField>
+            <FormField label="메모" htmlFor="link-memo">
+              <FormInput type="text" placeholder="해커스톡 짱" name="link-memo"
+                value={this.state.comment}
+                onChange={this.handleFieldChange.bind(this, 'comment')} 
+                multiline />
             </FormField>
           </Form>
         </ModalBody>
