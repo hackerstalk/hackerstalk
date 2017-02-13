@@ -94,8 +94,6 @@ const LinkList = React.createClass({
           {this.state.offset+i+1}
         </td>
         <td>
-          <h4><a href={item.url} target="_blank">{item.url}</a></h4>
-          <div>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
           <div>
             {
               item.comment.split("\n").map((l, i) => {
@@ -103,6 +101,9 @@ const LinkList = React.createClass({
               })
             }
           </div>
+          <div><a href={item.url} target="_blank">{item.url}</a></div>
+          <div>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
+          
         </td>
         <td>
           <p><TimeAgo datetime={item.created_time} locale='ko'/> by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a></p>
