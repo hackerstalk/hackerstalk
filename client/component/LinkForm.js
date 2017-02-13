@@ -34,8 +34,11 @@ const LinkForm = React.createClass({
   },
 
   handleTag(field, evt) {
-    console.log(evt.target.value.split(','));
-    this.setState({[field]: evt.target.value.split(',')})
+    var tags = evt.target.value.split(',');
+    tags = tags.map(function(tag) {
+      return tag.trim();
+    })
+    this.setState({[field]: tags})
   },
 
   onSubmit() {
@@ -60,7 +63,7 @@ const LinkForm = React.createClass({
                 onChange={this.handleFieldChange.bind(this, 'url')} />
             </FormField>
             <FormField label="태그" htmlFor="link-tag">
-              <FormInput type="text" placeholder="#해피해킹" name="link-tag"
+              <FormInput type="text" placeholder="태그1,태그2" name="link-tag"
                 value={this.state.tags.join(',')}
                 onChange={this.handleTag.bind(this, 'tags')} />
             </FormField>
