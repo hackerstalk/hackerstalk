@@ -93,10 +93,8 @@ const LinkList = React.createClass({
         </td>
         <td>
           <h4><a href={item.url} target="_blank">{item.url}</a></h4>
-          <p>{item.comment}</p>
-        </td>
-        <td>
-          { item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }
+          <p>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</p>
+          <p>{item.comment}</p>          
         </td>
         <td>
           <p><TimeAgo datetime={item.created_time} locale='ko'/> by <a href={"https://github.com/" + item.github_id} target="_blank">{item.github_id}</a></p>
@@ -124,13 +122,11 @@ const LinkList = React.createClass({
             <col width="50" />
             <col width="" />
             <col width="20%" />
-            <col width="20%" />
           </colgroup>
           <thead>
             <tr>
               <th>#</th>
               <th>링크</th>
-              <th>태그</th>
               <th></th>
             </tr>
           </thead>
