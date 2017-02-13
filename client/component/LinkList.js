@@ -102,7 +102,7 @@ const LinkList = React.createClass({
             }
           </div>
           <div><a href={item.url} target="_blank">{item.url}</a></div>
-          <div style={{marginTop: '0.5em'}}>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
+          <div style={{marginTop: '0.7em'}}>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
           
         </td>
         <td>
