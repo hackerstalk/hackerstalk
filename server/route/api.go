@@ -29,9 +29,11 @@ func GetLinks(c *gin.Context) {
 
 	page := int(page64)
 
+	offset := (page - 1) * limit
+
 	userIdStr := c.DefaultQuery("user_id", "")
 	if userIdStr == "" {
-		items, err := db.GetLinks((page-1)*limit, limit)
+		items, err := db.GetLinks(offset, limit)
 		if err != nil {
 			FAIL(c, 500, err)
 			return
@@ -44,9 +46,10 @@ func GetLinks(c *gin.Context) {
 		}
 
 		OK(c, gin.H{
-			"items": items,
-			"total": count,
-			"limit": limit,
+			"items":  items,
+			"total":  count,
+			"offset": offset,
+			"limit":  limit,
 		})
 	} else {
 		userId64, err := strconv.ParseInt(userIdStr, 10, 32)

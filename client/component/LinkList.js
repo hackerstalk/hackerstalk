@@ -18,6 +18,7 @@ const LinkList = React.createClass({
     return {
       page: 1,
       total: 0,
+      offset: 0,
       limit: 0,
       err: null,
       loading: false,
@@ -41,8 +42,9 @@ const LinkList = React.createClass({
               }
 
               this.setState({
-                items: res.body.items, 
+                items: res.body.items,
                 total: res.body.total,
+                offset: res.body.offset,
                 limit: res.body.limit,
                 loading: false});
             }.bind(this));
@@ -89,11 +91,11 @@ const LinkList = React.createClass({
     return (
       <tr key={i}>
         <td>
-          {item.id}
+          {this.state.offset+i+1}
         </td>
         <td>
           <h4><a href={item.url} target="_blank">{item.url}</a></h4>
-          <p>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</p>
+          <div>{ item.tags && item.tags.map(function(t, k) { return (<Pill label={t} key={k}/>); }) }</div>
           <p>{item.comment}</p>          
         </td>
         <td>
