@@ -10,10 +10,12 @@ import { LoginButton } from './LoginButton.js';
 import { LinkForm } from './LinkForm.js';
 
 
-const LinkAdd = React.createClass({
+const LinkEdit = React.createClass({
   propTypes: {
     router: React.PropTypes.object,
-    onAdded: React.PropTypes.func,
+    onEdited: React.PropTypes.func,
+    linkId: React.PropTypes.number,
+    data: React.PropTypes.object,
   },
 
   getInitialState() {
@@ -28,7 +30,7 @@ const LinkAdd = React.createClass({
   },
 
   onSubmit(data) {
-    request.post('/api/link')
+    request.put('/api/link/' + this.props.linkId)
            .type('form')
            .send({url: data.url})
            .send({comment: data.comment})
@@ -43,8 +45,8 @@ const LinkAdd = React.createClass({
 
              this.setState(this.getInitialState());
 
-             if(this.props.onAdded) {
-              this.props.onAdded();
+             if(this.props.onEdited) {
+              this.props.onEdited();
              }
              
            }.bind(this));
@@ -52,31 +54,28 @@ const LinkAdd = React.createClass({
 
 
   render () {
-    if (!loggedIn()) {
-      return (
-        <div>
-          <p>새로운 링크를 등록하려면 로그인이 필요합니다.</p>
-          <LoginButton/>
-        </div>
-      )
+    var form;
+    if(this.state.isOpen) {
+      form = (
+        <LinkForm 
+          title="링크 수정"
+          onSubmit={this.onSubmit} 
+          onCancel={this.toggleModal.bind(this, false)} 
+          isOpen={this.state.isOpen}
+          data={this.props.data}
+           />
+      );
     }
-    else {
-      return (
-        <div>
-          <Button onClick={this.toggleModal.bind(this, true)}>
-            <Glyph icon="repo-create" /> 새 링크 등록</Button>
-          <LinkForm 
-            title="링크 추가"
-            onSubmit={this.onSubmit} 
-            onCancel={this.toggleModal.bind(this, false)} 
-            isOpen={this.state.isOpen} />
-          <div className="error">
-            {this.state.err ? this.state.err.toString() : ''}
-          </div>
+    return (
+      <div>
+        <Button onClick={this.toggleModal.bind(this, true)}>수정</Button>
+        {form}
+        <div className="error">
+          {this.state.err ? this.state.err.toString() : ''}
         </div>
-      )
-    }
+      </div>
+    )
   }
 });
 
-exports.LinkAdd = LinkAdd;
+exports.LinkEdit = LinkEdit;

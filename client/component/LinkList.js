@@ -7,7 +7,7 @@ import TimeAgo from 'timeago-react';
 import { getUserId } from '../util.js';
 
 import { LinkAdd } from './LinkAdd.js';
-
+import { LinkEdit } from './LinkEdit.js';
 
 const LinkList = React.createClass({
   propTypes: {
@@ -48,10 +48,6 @@ const LinkList = React.createClass({
             }.bind(this));
   },
 
-  onAdded() {
-    this.reload()
-  },
-
   onEditClick(id) {
     console.log('edit', id);
     
@@ -84,7 +80,7 @@ const LinkList = React.createClass({
     if(userId && userId == item.user_id) {
       opt = (
         <div>
-          <Button onClick={this.onEditClick.bind(this, item.id)}>수정</Button>
+          <LinkEdit linkId={item.id} onEdited={this.reload} data={item} />
           <Button onClick={this.onDeleteClick.bind(this, item.id)}>삭제</Button>
         </div>
       );
@@ -118,6 +114,11 @@ const LinkList = React.createClass({
     return (
       <div>
         <div className="error">{this.state.err}</div>
+
+        <div style={{textAlign: 'right'}}>
+          <LinkAdd onAdded={this.reload}/>
+        </div>
+
         <Table>
           <colgroup>
             <col width="50" />
@@ -149,8 +150,6 @@ const LinkList = React.createClass({
           { this.state.loading ? (<Spinner size="md" />) : null }
         </div>
 
-        <div className="lead">새로운 링크 추가</div>
-        <LinkAdd onAdded={this.onAdded}/>
       </div>
 
     );
