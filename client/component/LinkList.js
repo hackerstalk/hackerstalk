@@ -97,7 +97,7 @@ const LinkList = React.createClass({
           <div>
             {
               item.comment.split("\n").map((l, i) => {
-                return <div key={i}>{l}</div>;
+                return <div key={i}>{l || '\u00a0'}</div>;
               })
             }
           </div>
