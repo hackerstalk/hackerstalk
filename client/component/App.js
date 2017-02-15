@@ -47,25 +47,10 @@ const App = React.createClass({
         </div>
         <div className="content">
           {this.props.children}
-
-          <div className="lead">해커스톡 메일링 리스트</div>
-          <p>매주 개발 관련된 뉴스를 이메일로 보내드립니다.</p>
-          <div id="mc_embed_signup">
-          <form action="//dabangapp.us8.list-manage.com/subscribe/post?u=126e16ff4f89785ae63578adc&amp;id=020aedb0ef" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate" target="_blank" noValidate>
-            <div id="mc_embed_signup_scroll">
-            <InputGroup contiguous>
-              <InputGroup.Section grow>
-                <FormIconField width="one-half" iconPosition="left" iconColor="default" iconKey="mail">
-                  <FormInput placeholder="이메일 주소" name="email" name="EMAIL"  id="mce-EMAIL" required />
-                </FormIconField>
-              </InputGroup.Section>
-              <InputGroup.Section>
-                <Button type="primary" submit={true} name="b_126e16ff4f89785ae63578adc_020aedb0ef">등록</Button>
-              </InputGroup.Section>
-            </InputGroup>
-            </div>
-          </form>
-          </div>
+        </div>
+        <hr/>
+        <div className="footer">
+          © 2017 HackersTalk. <a href="https://github.com/hackerstalk/hackerstalk" target="_blank">GitHub</a>에서 함께 만들어가요.
         </div>
       </div>
     );
