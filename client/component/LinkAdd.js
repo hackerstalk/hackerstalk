@@ -53,12 +53,7 @@ const LinkAdd = React.createClass({
 
   render () {
     if (!loggedIn()) {
-      return (
-        <div>
-          <p>새로운 링크를 등록하려면 로그인이 필요합니다.</p>
-          <LoginButton/>
-        </div>
-      )
+      return null;
     }
     else {
       return (

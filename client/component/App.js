@@ -24,7 +24,7 @@ const App = React.createClass({
     if (!loggedIn()) {
       return (
         <span className="info">
-          <LoginButton/>
+          <span style={{marginRight: '1em'}}>새로운 링크를 등록하려면 로그인이 필요합니다.</span> <LoginButton/>
         </span>
       );
     } else {
