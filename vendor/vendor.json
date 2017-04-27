@@ -1,5 +1,11 @@
 {
 	"comment": "",
+	"heroku": {
+		"goVersion": "go1.8",
+		"install": [
+			"./server"
+		]
+	},
 	"ignore": "test",
 	"package": [
 		{
@@ -115,9 +121,10 @@
 			"revision": "30a891c33c7cde7b02a981314b4228ec99380cca"
 		},
 		{
-			"checksumSHA1": "4hQNaJUg67lF/QcO0NKzUeqlaew=",
+			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
 			"path": "golang.org/x/net/context",
-			"revision": "569280fa63be4e201b975e5411e30a92178f0118"
+			"revision": "dd2d9a67c97da0afa00d5726e28086007a0acce5",
+			"revisionTime": "2017-02-23T02:43:42Z"
 		},
 		{
 			"checksumSHA1": "XH7CgbL5Z8COUc+MKrYqS3FFosY=",
@@ -152,9 +159,5 @@
 			"revision": "4c78c975fe7c825c6d1466c42be594d1d6f3aba6"
 		}
 	],
-	"rootPath": "hackerstalk",
-	"heroku": {
-		"install" : [ "./server" ],
-		"goVersion": "go1.7"
-	}
+	"rootPath": "hackerstalk"
 }
